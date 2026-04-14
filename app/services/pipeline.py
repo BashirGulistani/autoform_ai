@@ -10,3 +10,13 @@ def process_document_pipeline(file_bytes: bytes, filename: str) -> dict:
     2. LLM-based structured extraction
     3. Missing field detection
     """
+    extracted_text = extract_text_from_document(file_bytes=file_bytes, filename=filename)
+    structured_data = extract_structured_data(extracted_text)
+    missing_fields = detect_missing_fields(structured_data)
+
+    return {
+        "filename": filename,
+        "extracted_text": extracted_text,
+        "structured_data": structured_data,
+        "missing_fields": missing_fields,
+    }
