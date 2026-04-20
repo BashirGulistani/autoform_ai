@@ -67,6 +67,38 @@ class FileManager:
         safe_name = self.generate_safe_filename(output_name).rsplit(".", 1)[0] + ".txt"
         file_path = self.output_dir / safe_name
 
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(text)
+
+        return str(file_path)
+
+    def save_json_output(self, json_text: str, output_name: str) -> str:
+        """
+        Save JSON string output.
+        """
+        safe_name = self.generate_safe_filename(output_name).rsplit(".", 1)[0] + ".json"
+        file_path = self.output_dir / safe_name
+
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(json_text)
+
+        return str(file_path)
+
+    def ensure_directory(self, path: str | Path) -> str:
+        """
+        Ensure a directory exists and return its string path.
+        """
+        path_obj = Path(path)
+        path_obj.mkdir(parents=True, exist_ok=True)
+        return str(path_obj)
+
+    def list_uploaded_files(self) -> list[str]:
+        """
+        Return a list of uploaded files.
+        """
+        if not self.upload_dir.exists():
+            return []
+
 
 
 
