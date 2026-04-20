@@ -23,6 +23,31 @@ class FileManager:
         self.upload_dir.mkdir(parents=True, exist_ok=True)
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.temp_dir.mkdir(parents=True, exist_ok=True)
+    def generate_safe_filename(self, original_filename: str) -> str:
+        """
+        Convert the original filename into a unique safe filename.
+        """
+        ext = Path(original_filename).suffix.lower()
+        stem = Path(original_filename).stem.strip().replace(" ", "_")
+        stem = "".join(ch for ch in stem if ch.isalnum() or ch in ("_", "-"))
+
+        if not stem:
+            stem = "document"
+
+        return f"{stem}_{uuid.uuid4().hex[:10]}{ext}"
+
+    def save_upload_bytes(self, file_bytes: bytes, original_filename: str) -> str:
+        """
+        Save uploaded bytes to disk and return the file path.
+        """
+        safe_filename = self.generate_safe_filename(original_filename)
+        file_path = self.upload_dir / safe_filename
+
+        with open(file_path, "wb") as f:
+            f.write(file_bytes)
+
+        return str(file_path)
+
 
 
 
