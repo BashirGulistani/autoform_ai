@@ -125,6 +125,36 @@ class FileManager:
         )
 
 
+    def delete_file(self, file_path: str) -> bool:
+        """
+        Delete a file if it exists.
+        """
+        try:
+            path = Path(file_path)
+            if path.exists() and path.is_file():
+                path.unlink()
+                return True
+            return False
+        except OSError:
+            return False
 
+    def cleanup_temp_files(self) -> int:
+        """
+        Remove temp files and return the number deleted.
+        """
+        deleted_count = 0
+
+        if not self.temp_dir.exists():
+            return deleted_count
+
+        for item in self.temp_dir.iterdir():
+            try:
+                if item.is_file():
+                    item.unlink()
+                    deleted_count += 1
+            except OSError:
+                continue
+
+        return deleted_count
 
 
