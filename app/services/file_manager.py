@@ -98,4 +98,30 @@ class FileManager:
         return str(path_obj)
 
 
+    def list_uploaded_files(self) -> list[str]:
+        """
+        Return a list of uploaded files.
+        """
+        if not self.upload_dir.exists():
+            return []
+
+        return sorted(
+            [str(p) for p in self.upload_dir.iterdir() if p.is_file()],
+            key=lambda x: os.path.getmtime(x),
+            reverse=True
+        )
+
+    def list_output_files(self) -> list[str]:
+        """
+        Return a list of output files.
+        """
+        if not self.output_dir.exists():
+            return []
+
+        return sorted(
+            [str(p) for p in self.output_dir.iterdir() if p.is_file()],
+            key=lambda x: os.path.getmtime(x),
+            reverse=True
+        )
+
 
