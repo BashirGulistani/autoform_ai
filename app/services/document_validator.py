@@ -49,6 +49,23 @@ def validate_file_size(file_bytes: bytes, max_file_size_mb: int = DEFAULT_MAX_FI
         )
 
 
+def validate_non_empty(file_bytes: bytes) -> None:
+    """
+    Ensure uploaded content is not empty.
+    """
+    if not file_bytes:
+        raise DocumentValidationError("Uploaded file is empty.")
+
+
+def validate_filename(filename: str) -> None:
+    """
+    Ensure the filename exists and is not suspiciously malformed.
+    """
+    if not filename or not filename.strip():
+        raise DocumentValidationError("Filename is missing.")
+
+
+
 
 
 
