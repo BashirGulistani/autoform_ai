@@ -66,6 +66,17 @@ def validate_filename(filename: str) -> None:
 
 
 
+    stripped = filename.strip()
+
+    if len(stripped) > 255:
+        raise DocumentValidationError("Filename is too long.")
+
+    illegal_chars = {"\x00", "\n", "\r"}
+    if any(ch in stripped for ch in illegal_chars):
+        raise DocumentValidationError("Filename contains invalid characters.")
+
+
+
 
 
 
