@@ -77,6 +77,14 @@ def validate_filename(filename: str) -> None:
 
 
 
+def validate_document(file_bytes: bytes, filename: str, max_file_size_mb: int = DEFAULT_MAX_FILE_SIZE_MB) -> None:
+    """
+    Full validation pipeline for uploaded documents.
+    """
+    validate_filename(filename)
+    validate_non_empty(file_bytes)
+    validate_file_extension(filename)
+    validate_file_size(file_bytes, max_file_size_mb=max_file_size_mb)
 
 
 
