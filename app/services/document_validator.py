@@ -36,6 +36,19 @@ def validate_file_extension(filename: str, allowed_extensions: Iterable[str] = A
             f"Allowed types are: {', '.join(sorted(allowed_extensions))}"
         )
 
+def validate_file_size(file_bytes: bytes, max_file_size_mb: int = DEFAULT_MAX_FILE_SIZE_MB) -> None:
+    """
+    Ensure the uploaded file size does not exceed the configured max.
+    """
+    size_bytes = len(file_bytes)
+    max_bytes = max_file_size_mb * 1024 * 1024
+
+    if size_bytes > max_bytes:
+        raise DocumentValidationError(
+            f"File is too large. Max allowed size is {max_file_size_mb} MB."
+        )
+
+
 
 
 
